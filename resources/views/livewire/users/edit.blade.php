@@ -19,7 +19,7 @@ new class extends Component {
     public string $email;
 
     #[Validate('sometimes')]
-    public int $country_id;
+    public ?int $country_id;
 
     #[Validate('nullable|image|max:1024')]
     public $photo;
@@ -51,28 +51,29 @@ new class extends Component {
     }
 }; ?>
 
-<div class="grid gap-5 lg:grid-cols-2">
-    <div>
-        <x-header title="Update {{ $user->name }}" separator />
+<div>
+    <x-header title="Update {{ $user->name }}" separator />
+    <div class="grid gap-5 lg:grid-cols-2">
 
         <x-form wire:submit='save'>
             <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg" crop-after-change>
                 <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 rounded-lg" />
             </x-file>
 
-            <x-input label="Name" wire:modle='name' />
-            <x-input label="Email" wire:modle='email' />
-            <x-select label="Country" wire:modle='country_id' :options="$countries" placeholder="Select Country" />
+            <x-input label="Name" wire:model='name' />
+            <x-input label="Email" wire:model='email' />
+            <x-select label="Country" wire:model='country_id' :options="$countries" placeholder="Select Country" />
 
             <x-slot:actions>
                 <x-button label="Cancel" link="/users" />
                 <x-button label="save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
             </x-slot:actions>
         </x-form>
+
+        <div>
+            {{-- Get a nice picture from `StorySet` web site --}}
+            <img src="/edit-form.png" width="300" class="mx-auto" />
+        </div>
     </div>
 
-    <div>
-        {{-- Get a nice picture from `StorySet` web site --}}
-        <img src="/edit-form.png" width="300" class="mx-auto" />
-    </div>
 </div>
